@@ -69,19 +69,19 @@ class DoublyLinkedList {
 
       ~DoublyLinkedList() {
          auto iter_end = end();
-         for (iterator itr = begin(); itr != iter_end; ++itr) {
-            erase(itr);
+         for (iterator iter = begin(); iter != iter_end; ++iter) {
+            erase(iter);
          }
       };
       DoublyLinkedList() : head(nullptr), tail(nullptr), list_size(0) {};
       DoublyLinkedList(const DoublyLinkedList& other) {
-         for (const T& itr : other) {
-            push_back(itr);
+         for (const T& iter : other) {
+            push_back(iter);
          }
       };
       DoublyLinkedList(std::initializer_list<T> dll) : DoublyLinkedList() {
-         for (auto itr : dll) {
-            push_back(itr);
+         for (auto iter : dll) {
+            push_back(iter);
          }
       };
 
@@ -106,41 +106,42 @@ class DoublyLinkedList {
 //      }
 
    void remove(const T& value) {
-      iterator iter_end = end();
-      for (iterator itr = begin(); itr != iter_end;) {
-         if (*itr == value) {
-            itr = erase(itr);
-            --itr;
+      for (iterator iter = begin(); iter != end();) {
+         if (*iter == value) {
+            iter = erase(iter);
+            --iter;
          } else {
-            ++itr;
+            ++iter;
          }
       }
    };
 
-   iterator erase(iterator cur) {
-      if (list_size == 0) {
-         return end();
-      }
-      else if (list_size == 1){
-         cur = end();
+   iterator erase(iterator pos) {
+      if (list_size == 1){
+         head = nullptr;
+         tail = nullptr;
          --list_size;
       }
-      //if cur head or end
-      else if (cur.prev == begin()){
-
+      else if (pos.cur == head){
+         pos.cur->next->prev = nullptr;
+         head = pos.cur->next;
+         --list_size;
       }
-      else if (cur->tail == end()){
-         return;
+      else if (pos.cur == tail){
+         pos.cur->prev->next = nullptr;
+         tail = pos.cur->prev;
+         --list_size;
       }
-      //default case
       else {
-
+         pos.cur->prev->next = pos.cur->next;
+         pos.cur->next->prev = pos.cur->prev;
+         --list_size;
       }
-      return cur;
+      return pos;
    };
 
-   iterator insert(iterator cur, const T& value) {
-      return cur;
+   iterator insert(iterator position, const T& value) {
+      return position;
    }
 //COMPLETED!
    //iterator (current, previous, isReversed);

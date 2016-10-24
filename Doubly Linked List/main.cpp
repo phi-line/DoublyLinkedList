@@ -11,6 +11,8 @@
 
 #include "doubly_linked_list.h"
 
+using namespace std;
+
 // Simple main program that tests that the following methods work:
 // DoublyLinkedList();  // default constructor
 // DoublyLinkedList::push_back;
@@ -23,10 +25,25 @@ int main() {
    for (const std::string& word : words) std::cout << word << " "; std::cout << "\nsize is: " << words.size() << "\n";
 //TEST REMOVE FUNCTION
    std::cout << "\nTESTING REMOVE\n";
+   for (const std::string& word : words) std::cout << word << " ";
+   std::cout << "\nremoving lists\n";
    words.remove("lists");
+   for (const std::string& word : words) std::cout << word << " ";
+   std::cout << "\nremoving syntax\n";
    words.remove("syntax");
-   words.remove("initalizer");
+   for (const std::string& word : words) std::cout << word << " ";
+   std::cout << "\nremoving initalizer\n";
+   words.remove("initializer");
    for (const std::string& word : words) std::cout << word << " "; std::cout << "\nsize is: " << words.size() << "\n";
+//TEST HIS REMOVE
+   cout << "\nTESTING FISH REMOVE\n";
+   DoublyLinkedList<std::string> fish = {"fish", "red", "fish", "blue", "fish", "big", "fish", "small", "fish"};
+   for (const std::string& word : fish) { cout << word << " "; }
+   cout << "\nsize is: " << fish.size() << "\n"; fish.remove("blue");
+   for (const std::string& word : fish) { cout << word << " "; }
+   cout << "\nsize is now: " << fish.size() << "\n"; fish.remove("fish");
+   for (const std::string& word : fish) { cout << word << " "; }
+   cout << "\nsize is finally: " << fish.size() << "\n";
 //TEST REVERSE ITERATOR
    std::cout << ("\nTESING REVERSE ITERATOR\n");
    DoublyLinkedList<std::string> BW_sentence = {"backwards!", "are", "words", "These"};
