@@ -6,8 +6,8 @@
 //    +  [X]
 //    += [X]
 // push_back     [X]
-// remove        [ ]
-// erase         [ ]
+// remove        [X]
+// erase         [/]
 // insert        [ ]
 // iterator func [X]
 
@@ -104,22 +104,26 @@ class DoublyLinkedList {
 //      void test_push_back(){
 //         for (DLLnode<T> *cur = head; cur != nullptr; cur = cur->next){}
 //      }
-
+//COMPLETED!
    void remove(const T& value) {
-      for (iterator iter = begin(); iter != end();) {
+      for (iterator iter = begin(); iter != end(); ++iter) {
          if (*iter == value) {
-            iter = erase(iter);
-            --iter;
+            erase(iter);
+            //--iter;
          } else {
-            ++iter;
+            //++iter;
          }
       }
    };
-
-   iterator erase(iterator pos) {
+//COMPLETED! (seg fault)
+   void erase(iterator pos) {
+      if (pos.cur == nullptr){
+         return;
+      }
       if (list_size == 1){
+         pos.cur = head;
          head = nullptr;
-         tail = nullptr;
+         tail = head;
          --list_size;
       }
       else if (pos.cur == head){
@@ -137,12 +141,46 @@ class DoublyLinkedList {
          pos.cur->next->prev = pos.cur->prev;
          --list_size;
       }
-      return pos;
+      //return pos;
    };
 
-   iterator insert(iterator position, const T& value) {
-      return position;
+   iterator insert(iterator pos, const T& value) {
+      if (list_size == 0){
+         push_back(value);
+         pos.cur = head;
+         pos.prev = nullptr;
+         return pos;
+      }
+      if (pos.cur == head){
+         DLLnode *new_head = new DLLnode(value, head, nullptr);
+         pos.cur->prev = new_head;
+         head = new_head;
+         pos.cur = head;
+         pos.prev = nullptr;
+      } else if (pos.cur == tail){
+         DLLnode *new_tail = new DLLnode(value, nullptr, tail);
+         pos.cur->next = new_tail;
+         tail = new_tail;
+         pos.cur = tail;
+         pos.prev = tail->prev;
+      }
+      //default
+      else {
+         DLLnode *insert_head = pos.cur->prev;
+         DLLnode *insert_tail = pos.cur;
+         DLLnode *temp_node= new DLLnode (value, insert_tail, insert_head);
+         pos.cur->prev->next = temp_node;
+         pos.cur->next->prev = temp_node;
+         pos.cur = temp_node;
+         pos.prev = temp_node->prev;
+//         push_back(value);
+//         pos.cur = head;
+//         pos.prev = nullptr;
+      }
+      ++list_size;
+      return pos;
    }
+
 //COMPLETED!
    //iterator (current, previous, isReversed);
    iterator begin() {
@@ -186,7 +224,7 @@ void remove(const T& val) {
 //should work exactly like this!!
 /*
    iterator insert(iterator cur, const T& value) {
-      //reserve(list_size_ + 1);
+      //reserve(list_size + 1);
       cur = end();
       iterator prev = cur;
       // Copy everything over to make room to insert value at position.
@@ -200,4 +238,27 @@ void remove(const T& val) {
 */
 };
 
+//if (pos.cur == nullptr){
+//   return;
+//}
+//if (list_size == 1){
+//   head = nullptr;
+//   tail = nullptr;
+//   --list_size;
+//}
+//else if (pos.cur == head){
+//   pos.cur->next->prev = nullptr;
+//   head = pos.cur->next;
+//   --list_size;
+//}
+//else if (pos.cur == tail){
+//   pos.cur->prev->next = nullptr;
+//   tail = pos.cur->prev;
+//   --list_size;
+//}
+//else {
+//   pos.cur->prev->next = pos.cur->next;
+//   pos.cur->next->prev = pos.cur->prev;
+//   --list_size;
+//}
 #endif /* doubly_linked_list_h */
