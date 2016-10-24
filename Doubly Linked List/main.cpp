@@ -7,6 +7,7 @@
 //
 
 #include <iostream>
+#include <string>
 
 #include "doubly_linked_list.h"
 
@@ -16,13 +17,25 @@
 // DoublyLinkedList::begin();
 // const T&amp; iterator::operator*() const;
 int main() {
-   DoublyLinkedList<std::string> mylist;
-   mylist.push_back("first");
-   mylist.push_back("second");
-   DoublyLinkedList<std::string>::iterator myiterator = mylist.begin();
-   if (*myiterator != "first") {
-      std::cout << "Oh no!  Expected *myiterator == \"first\", "
-      << "but actually *myiterator == " << *myiterator << std::endl;
+   DoublyLinkedList<std::string> words = {"initializer", "lists", "have", "nice", "syntax"};
+//TEST PUSH BACK
+   std::cout << "TESTING PUSH BACK\n";
+   for (const std::string& word : words) std::cout << word << " "; std::cout << "\nsize is: " << words.size() << "\n";
+//TEST REMOVE FUNCTION
+   std::cout << "\nTESTING REMOVE\n";
+   words.remove("lists");
+   words.remove("syntax");
+   words.remove("initalizer");
+   for (const std::string& word : words) std::cout << word << " "; std::cout << "\nsize is: " << words.size() << "\n";
+//TEST REVERSE ITERATOR
+   std::cout << ("\nTESING REVERSE ITERATOR\n");
+   DoublyLinkedList<std::string> BW_sentence = {"backwards!", "are", "words", "These"};
+   for (auto iter = BW_sentence.rbegin(), iter_end = BW_sentence.rend(); iter != iter_end; ++iter){
+      std::cout << *iter << " ";
    }
+   std::cout << "\nsize is: " << BW_sentence.size() << "\n";
+
    return 0;
 }
+
+
