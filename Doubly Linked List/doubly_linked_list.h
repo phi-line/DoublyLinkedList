@@ -79,6 +79,7 @@ class DoublyLinkedList {
             push_back(iter);
          }
       };
+      // : calls default constructor code into this so you dont have to retype
       DoublyLinkedList(std::initializer_list<T> dll) : DoublyLinkedList() {
          for (auto iter : dll) {
             push_back(iter);
@@ -148,6 +149,7 @@ class DoublyLinkedList {
       if (list_size == 0){
          push_back(value);
          pos.cur = head;
+         pos.cur = tail;
          pos.prev = nullptr;
          return pos;
       }
@@ -166,9 +168,7 @@ class DoublyLinkedList {
       }
       //default
       else {
-         DLLnode *insert_head = pos.cur->prev;
-         DLLnode *insert_tail = pos.cur;
-         DLLnode *temp_node= new DLLnode (value, insert_tail, insert_head);
+         DLLnode *temp_node= new DLLnode (value, pos.cur, pos.cur->prev);
          pos.cur->prev->next = temp_node;
          pos.cur->next->prev = temp_node;
          pos.cur = temp_node;
